@@ -15,12 +15,12 @@ Connecting Wires
 AVR Programmer x1
 
 
-**G-Code**\
+**G-Code**
 G-code is a programming language for CNC that instructs machines where and how to move a G-code and M-code.
 1. G-Code - Gives the X,Y,Z Coordinates of the position to which the must be next.
 2. M-Code - Give the end effector movements to the coordinates specified by the G-Code.
 
-**Following Softwares were used :**\
+**Following Softwares were used :**
 1. InkScape - To visualize the input
 2. Camotics - To calculate which direction the given input is to be drawn
 3. G-Code sender - Converts the path given by camotics into g-code.
