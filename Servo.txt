@@ -1,0 +1,17 @@
+
+#include <Servo.h>
+
+Servo pen;  // create servo object to control a servo
+// twelve servo objects can be created on most boards
+
+
+const int penServoPin = 15; //servo pin is initialised
+
+void setup() {
+  pen.attach(penServoPin);  // attaches the servo on pin 15 to the servo object
+}
+
+void loop() 
+{
+    pen.write(170);            // tell servo to go to 
+}
