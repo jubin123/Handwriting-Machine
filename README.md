@@ -1,4 +1,4 @@
-**CNC Based Handwriting Machine**
+**Simple Handwriting Machine**
 
 This robot writes any given input using a pen mounted on the chassis by interpreting the G-codes.  
 
