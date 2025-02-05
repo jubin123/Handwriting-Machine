@@ -1,0 +1,144 @@
+#include <Servo.h>
+
+Servo pen;
+
+// Servo on PWM pin 15
+const int penServoPin = 15;
+const int penDelay = 150; //delay for servo to reach position
+
+//servo angle for up and down
+
+const int penDown = 126;
+const int penUp = penDown-20;
+
+// defines pins numbers
+const int xstepPin = 12;
+const int xdirPin = 11;
+const int ystepPin = 13;
+const int ydirPin = 14;
+
+const int Control = 24;
+const int xlimit = 25;
+const int ylimit = 26;
+
+const float away = 1;
+const float origin = 0;
+
+int xDir, yDir;
+
+
+
+// Drawing robot limits, in mm
+const float Xmin = 0;
+const float Xmax = 105;
+const float Ymin = 0;
+const float Ymax = 110;
+
+
+
+void xstepper_rev(int xdir)
+{
+  //set the direction of rotation
+  digitalWrite(xdirPin, xdir);
+
+  //one pulse for the motor to take one step
+  digitalWrite(xstepPin, HIGH);
+  //delayMicroseconds(800);
+  digitalWrite(xstepPin, LOW);
+  //delayMicroseconds(800);
+}
+
+void ystepper_rev(int ydir)
+{
+  //set the direction of rotation
+  digitalWrite(ydirPin, ydir);
+
+  //one pulse for the motor to take one step
+  digitalWrite(ystepPin, HIGH);
+  //delayMicroseconds(800);
+  digitalWrite(ystepPin, LOW);
+  //delayMicroseconds(800);
+}
+
+void not_writing()
+{
+  pen.write(penUp);  //pen up
+  delay(penDelay);  //delay for theservo to reach position
+  Serial.println("pen is not writing");
+}
+
+void writing()
+{
+  pen.write(penDown);   //pen down
+  delay(penDelay);      //delay for theservo to reach position
+  Serial.println("pen is writing now");
+
+}
+
+void setup()
+{
+  //declare all outputs
+  pinMode(xstepPin, OUTPUT);
+  pinMode(xdirPin, OUTPUT);
+
+  pinMode(ystepPin, OUTPUT);
+  pinMode(ydirPin, OUTPUT);
+
+  //declare input for homing controls
+  pinMode(Control, INPUT);
+  pinMode(xlimit, INPUT);
+  pinMode(ylimit, INPUT);
+
+  //pullup input
+  //digitalWrite(Control, HIGH);
+
+  //servo pin
+  pen.attach(penServoPin);
+
+  //initially set servo up
+  pen.write(penUp);
+  delay(penDelay);
+
+  Serial.begin( 9600 );
+  Serial.println("Mini CNC Plotter alive and kicking!");
+  Serial.print("X range is from ");
+  Serial.print(Xmin);
+  Serial.print(" to ");
+  Serial.print(Xmax);
+  Serial.println(" mm.");
+  Serial.print("Y range is from ");
+  Serial.print(Ymin);
+  Serial.print(" to ");
+  Serial.print(Ymax);
+  Serial.println(" mm.");
+}
+
+void loop()
+{
+  //Manual homing of motors to (0,0)
+  if (digitalRead(Control) == LOW)
+  {
+    pen.write(penDown);
+    int c = digitalRead(xlimit);
+    int d = digitalRead(ylimit);
+    if ((c == 0) && (d == 0))
+    {
+      xstepper_rev(origin);
+    }
+    else if ((c == 0) && (d == 1))
+    {
+      xstepper_rev(away);
+    }
+    else if ((c == 1) && (d == 0))
+    {
+      ystepper_rev(origin);
+    }
+    else if ((c == 1) && (d == 1))
+    {
+      ystepper_rev(away);
+    }
+
+  }
+  else
+    pen.write(penUp);
+}

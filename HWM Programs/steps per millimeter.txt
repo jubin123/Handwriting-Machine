@@ -1,0 +1,94 @@
+#include <Servo.h>
+
+Servo pen;
+
+// Servo on PWM pin 15
+const int penServoPin = 15;
+const int penDelay = 150; //delay for servo to reach position
+
+//servo angle for up and down
+
+const int penDown = 127;
+const int penUp = penDown-30;
+
+// defines pins numbers
+const int xstepPin = 12;
+const int xdirPin = 11;
+const int ystepPin = 13;
+const int ydirPin = 14;
+
+const float away = 1;
+const float origin = 0;
+
+int xDir, yDir;
+
+void xstepper_rev(int xdir)
+{
+  //set the direction of rotation
+  digitalWrite(xdirPin, xdir);
+
+  for (int i = 0; i < 5000; i++)
+  {
+    //one pulse for the motor to take one step
+    digitalWrite(xstepPin, HIGH);
+    delayMicroseconds(800);
+    digitalWrite(xstepPin, LOW);
+    delayMicroseconds(800);
+  }
+}
+
+void ystepper_rev(int ydir)
+{
+  //set the direction of rotation
+  digitalWrite(ydirPin, ydir);
+  for (int i = 0; i < 5000; i++)
+  {
+    //one pulse for the motor to take one step
+    digitalWrite(ystepPin, HIGH);
+    delayMicroseconds(800);
+    digitalWrite(ystepPin, LOW);
+    delayMicroseconds(800);
+  }
+}
+
+void not_writing()
+{
+  pen.write(penUp);  //pen up
+  delay(penDelay);  //delay for theservo to reach position
+  Serial.println("pen is not writing");
+}
+
+void writing()
+{
+  pen.write(penDown);   //pen down
+  delay(penDelay);      //delay for theservo to reach position
+  Serial.println("pen is writing now");
+
+}
+
+void setup()
+{
+  //declare all outputs
+  pinMode(xstepPin, OUTPUT);
+  pinMode(xdirPin, OUTPUT);
+
+  pinMode(ystepPin, OUTPUT);
+  pinMode(ydirPin, OUTPUT);
+  //servo pin
+  pen.attach(penServoPin);
+
+  //initially set servo up
+  not_writing();
+  delay(200);
+
+  writing();
+
+  ystepper_rev(0);
+
+  not_writing();
+  delay(200);
+}
+
+void loop() {
+
+}

@@ -1,0 +1,38 @@
+#include <Servo.h>
+
+Servo pen;
+
+// Servo on PWM pin 15
+const int penServoPin = 15;
+const int penDelay = 150; //delay for servo to reach position
+
+//servo angle for up and down
+const int penDown = 127;
+const int penUp = penDown-30;
+
+
+void not_writing()
+{
+  pen.write(penUp);  //pen up
+  delay(penDelay);  //delay for theservo to reach position
+  Serial.println("pen is not writing");
+}
+
+void writing()
+{
+  pen.write(penDown);   //pen down
+  delay(penDelay);      //delay for theservo to reach position
+  Serial.println("pen is writing now");
+
+}
+
+
+void setup()
+{
+pen.attach(penServoPin);
+}
+
+
+void loop() {
+  writing();
+}
