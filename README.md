@@ -30,3 +30,9 @@ G-code is a programming language for CNC that instructs machines where and how t
 1. InkScape - To visualize the input
 2. Camotics - To calculate which direction the given input is to be drawn
 3. G-Code sender - Converts the path given by camotics into g-code.
+
+**Note :**
+
+This project is done as a part of 'Kaizen-Robotics-Program'.
+
+link to main repo : [Link](https://github.com/jubin123/Kaizen-Robotics-Program.git)
